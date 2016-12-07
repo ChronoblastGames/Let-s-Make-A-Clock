@@ -38,9 +38,7 @@ public class SystemManager : MonoBehaviour
         GetSystemDateTime();
 
         ManageDate();
-        ManageTime();
-
-        //Debug.Log
+        ManageTime();    
     }
 
     void GetSystemDateTime()
@@ -81,13 +79,6 @@ public class SystemManager : MonoBehaviour
             isFall = true;
             isWinter = false;
         }
-        else
-        {          
-            isSpring = false;
-            isSummer = false;
-            isFall = false;
-            isWinter = true;
-        }
 
         dayOfTheYear = systemTime.DayOfYear.ToString();
     }
@@ -95,6 +86,35 @@ public class SystemManager : MonoBehaviour
     void ManageTime()
     {
         currentTime = systemTime.ToShortTimeString();
+
+        if (CheckForTimeOfDay(systemTime.TimeOfDay.Hours) == 1)
+        {
+            isMorning = false;
+            isAfternoon = false;
+            isEvening = false;
+            isNight = true;
+        }
+        else if (CheckForTimeOfDay(systemTime.TimeOfDay.Hours) == 2)
+        {
+            isMorning = true;
+            isAfternoon = false;
+            isEvening = false;
+            isNight = false;
+        }
+        else if (CheckForTimeOfDay(systemTime.TimeOfDay.Hours) == 3)
+        {
+            isMorning = false;
+            isAfternoon = true;
+            isEvening = false;
+            isNight = false;
+        }
+        else if (CheckForTimeOfDay(systemTime.TimeOfDay.Hours) == 4)
+        {
+            isMorning = false;
+            isAfternoon = true;
+            isEvening = true;
+            isNight = false;
+        }
     }
 
     private int CheckForSeason(int currentDayOfYear)
@@ -124,6 +144,25 @@ public class SystemManager : MonoBehaviour
 
     private int CheckForTimeOfDay(int currentTimeOfDay)
     {
-        return 1;
+        if (currentTimeOfDay < 4)
+        {
+            return 1;
+        }
+        else if (currentTimeOfDay < 12)
+        {
+            return 2;
+        }
+        else if (currentTimeOfDay < 16)
+        {
+            return 3;
+        }
+        else if (currentTimeOfDay < 21)
+        {
+            return 4;
+        }
+        else
+        {
+            return 1;
+        }
     }
 }
